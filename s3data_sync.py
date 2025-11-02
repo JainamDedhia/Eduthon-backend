@@ -101,6 +101,7 @@ async def upload_file(file: UploadFile = File(...), folder: Optional[str] = None
             Key=s3_key,
             Body=file_contents,
             ContentType=file.content_type
+            ACL='public-read' 
         )
         
         # Generate URL for the uploaded file
@@ -116,6 +117,7 @@ async def upload_file(file: UploadFile = File(...), folder: Optional[str] = None
                 "url": file_url,
                 "content_type": file.content_type,
                 "size": len(file_contents)
+                
             }
         )
         
@@ -200,5 +202,6 @@ async def upload_multiple_files(files: list[UploadFile] = File(...), folder: Opt
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
 
 
