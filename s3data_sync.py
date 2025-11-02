@@ -100,7 +100,7 @@ async def upload_file(file: UploadFile = File(...), folder: Optional[str] = None
             Bucket=S3_BUCKET_NAME,
             Key=s3_key,
             Body=file_contents,
-            ContentType=file.content_type
+            ContentType=file.content_type,
             ACL='public-read' 
         )
         
@@ -202,6 +202,7 @@ async def upload_multiple_files(files: list[UploadFile] = File(...), folder: Opt
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
 
 
 
