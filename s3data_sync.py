@@ -1,6 +1,7 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import JSONResponse
 import boto3
+from fastapi.middleware.cors import CORSMiddleware
 from botocore.exceptions import ClientError
 from dotenv import load_dotenv
 import os
@@ -11,6 +12,13 @@ load_dotenv()
 
 # Initialize FastAPI app
 app = FastAPI(title="S3 File Upload Service")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # for now, allow all origins (you can restrict later)
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # S3 Configuration from .env
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
@@ -192,4 +200,5 @@ async def upload_multiple_files(files: list[UploadFile] = File(...), folder: Opt
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
 
